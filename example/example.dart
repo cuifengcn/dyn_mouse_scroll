@@ -1,4 +1,4 @@
-import 'package:dyn_mouse_scroll/dyn_mouse_scroll.dart';
+import 'package:smooth_scroll_multiplatform/smooth_scroll_multiplatform.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,6 +13,32 @@ class BasicUsageApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
           body: DynMouseScroll(
+              builder: (context, controller, physics) => ListView(
+                    controller: controller,
+                    physics: physics,
+                    children: List.generate(
+                        40,
+                        (index) => Container(
+                            height: 500,
+                            color: (index % 2 == 0)
+                                ? Colors.redAccent
+                                : Colors.blueAccent)),
+                  ))),
+    );
+  }
+}
+
+class CustomSettingsUsageApp extends StatelessWidget {
+  const CustomSettingsUsageApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+          body: DynMouseScroll(
+			  durationMS = 500,
+			  scrollSpeed = 4.4,
+			  animationCurve = Curves.easeOutQuart,
               builder: (context, controller, physics) => ListView(
                     controller: controller,
                     physics: physics,
