@@ -33,9 +33,9 @@ DynMouseScroll(
 With additional settings:
 ```dart
 DynMouseScroll(
-  durationMS = 500,
-  scrollSpeed = 4.4,
-  animationCurve = Curves.easeOutQuart,
+  durationMS: 500,
+  scrollSpeed: 4.4,
+  animationCurve: Curves.easeOutQuart,
   builder: (context, controller, physics) => ListView(
     controller: controller,
     physics: physics,
@@ -58,4 +58,3 @@ one, switching to desktop scroll physics as the mouse wheel scroll is initiated 
 after the widget is rebuilt; the desktop scroll physics then takes priority over mobile physics,
 switching back to mobile physics only after the last scroll animation has ended, only if no new scroll wheel
 action had been initiated in the meantime.
-
