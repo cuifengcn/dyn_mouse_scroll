@@ -8,21 +8,25 @@ class DynMouseScroll extends StatelessWidget {
   final int durationMS;
   final double scrollSpeed;
   final Curve animationCurve;
+  late final ScrollController controller;
   final Function(BuildContext, ScrollController, ScrollPhysics) builder;
 
-  const DynMouseScroll({
+  DynMouseScroll({
     super.key,
     this.mobilePhysics = kMobilePhysics,
     this.durationMS = 380,
     this.scrollSpeed = 2,
     this.animationCurve = Curves.easeOutQuart,
     required this.builder,
-  });
+    ScrollController? controller,
+  }) {
+    this.controller = controller ?? ScrollController();
+  }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<ScrollState>(
-        create: (context) => ScrollState(mobilePhysics, durationMS),
+        create: (context) => ScrollState(mobilePhysics, durationMS, controller),
         builder: (context, _) {
           final scrollState = context.read<ScrollState>();
           final controller = scrollState.controller;
@@ -30,8 +34,8 @@ class DynMouseScroll extends StatelessWidget {
           final updateState = context.select((ScrollState s) => s.updateState);
           scrollState.handlePipelinedScroll?.call();
           return Listener(
-            onPointerSignal: (signalEvent) => scrollState.handleDesktopScroll(
-                signalEvent, scrollSpeed, animationCurve),
+            onPointerSignal: (signalEvent) =>
+                scrollState.handleDesktopScroll(signalEvent, scrollSpeed, animationCurve),
             onPointerDown: scrollState.handleTouchScroll,
             child: builder(context, controller, physics),
           );
